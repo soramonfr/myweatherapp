@@ -1,6 +1,6 @@
 body {
   font-family: "Roboto", sans-serif;
-  color: #2B2F70;
+  color: #2b2f70;
   background-image: url("https://img.wallpapersafari.com/desktop/1920/1080/99/1/j1saJW.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -8,7 +8,7 @@ body {
 }
 
 .weather-app {
-  background-image: linear-gradient(to bottom, #F1EEF5 10%,#887C9D 90%);
+  background-image: linear-gradient(to bottom, #f1eef5 10%, #887c9d 90%);
   border: solid 1px #a9a9a900;
   padding: 10px;
   margin: 150px auto;
@@ -58,4 +58,8 @@ footer {
   text-align: center;
   margin: 20px;
   font-weight: lighter;
+}
+
+footer a {
+  color: #FEF7E7;
 }
