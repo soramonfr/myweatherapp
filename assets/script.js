@@ -1,4 +1,4 @@
-// Feature #1 - Display the current date and time
+// Display the current date and time
 let now = new Date();
 
 // Day display
@@ -12,7 +12,7 @@ let days = [
     "Friday",
     "Saturday"
 ];
-currentDay.innerHTML = days[now.getDay()];
+currentDay.innerHTML = `Last updated: ${days[now.getDay()]}`;
 
 // Hour display
 let currentHour = document.querySelector("#current-hour");
@@ -28,7 +28,48 @@ if (minutes < 10) {
 
 currentHour.innerHTML = `${hours}:${minutes}`;
 
-// Feature #2 - Using API: When a user searches for a city (example: New York), it should display the name of the city on the result page and the current temperature of the city.
+// Format hours - timestamp
+function formatHours(timestamp) {
+    let date = new Date(timestamp);
+    let hours = date.getHours();
+    if (hours < 10) {
+        hours = `0${hours}`;
+    }
+    let minutes = date.getMinutes();
+    if (minutes < 10) {
+        minutes = `0${minutes}`;
+    }
+    return `${hours}:${minutes}`;
+}
+
+// Using API: When a user searches for a city (example: New York), it should display the name of the city on the result page and the current temperature of the city.
+
+// Display the next hours forecast
+function displayForecast(response) {
+    let forecastElement = document.querySelector("#forecast");
+    // Fixing forecast duplication element
+    forecastElement.innerHTML = null;
+    // Init forecast
+    let forecast = null;
+
+    for (let index = 0; index < 3; index++) {
+        forecast = response.data.list[index];
+        forecastElement.innerHTML += `
+      <div class="col">
+            <ul>
+                <li class="forecast-hours">${formatHours(forecast.dt * 1000)}</li>
+                <li class="forecast-icons">
+                    <img src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png">
+                </li>
+                <li class="forecast-temperatures">
+                    <strong>${Math.round(forecast.main.temp_max)}°</strong>
+                    ${Math.round(forecast.main.temp_min)}°
+                </li>
+            </ul>
+        </div>
+    `;
+    }
+}
 
 // Display the current temperature of the city, via the API.
 function showTemperature(response) {
@@ -53,6 +94,9 @@ function cityDisplay(event) {
     let apiKey = "c3713b1bcebb5ce5f896fa8a7eec12ab";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&units=${apiUnit}&appid=${apiKey}`;
     axios.get(apiUrl).then(showTemperature);
+
+    apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput.value}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
 }
 
 // Form submission
@@ -75,7 +119,6 @@ function showGeolocation(response) {
     let wind = document.querySelector("#wind");
     precipitation.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
-    // console.log(response.data);
 }
 
 function geolocationData(event) {
