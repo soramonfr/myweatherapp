@@ -35,13 +35,18 @@ function showTemperature(response) {
     let apiTemperature = Math.round(response.data.main.temp);
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
+    // Get & display the parameters
+    let precipitation = document.querySelector("#precipitation");
+    let wind = document.querySelector("#wind");
+    precipitation.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
 }
 
 // When searching for a city, display the city name on the page after the user submits the form. Use axios to get the API datas related to this city.
 function cityDisplay(event) {
     event.preventDefault();
     // Get the data
-    let cityInput = document.querySelector("#city-input");
+    cityInput = document.querySelector("#city-input");
     let cityName = document.querySelector("#city-name");
     cityName.innerHTML = `${cityInput.value}`;
     let apiUnit = "metric";
@@ -65,6 +70,12 @@ function showGeolocation(response) {
     // Get & display the location
     let cityName = document.querySelector("#city-name");
     cityName.innerHTML = `${response.data.name}`;
+    // Get & display the parameters
+    let precipitation = document.querySelector("#precipitation");
+    let wind = document.querySelector("#wind");
+    precipitation.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
+    // console.log(response.data);
 }
 
 function geolocationData(event) {
@@ -84,4 +95,3 @@ function geolocationData(event) {
 // Geolocation Btn 
 let geolocationBtn = document.querySelector("#geolocation-button");
 geolocationBtn.addEventListener("click", geolocationData);
-
