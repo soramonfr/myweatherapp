@@ -77,9 +77,9 @@ function showTemperature(response) {
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
     // Get & display the parameters
-    let precipitation = document.querySelector("#precipitation");
+    let humidity = document.querySelector("#humidity");
     let wind = document.querySelector("#wind");
-    precipitation.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
+    humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
 }
 
@@ -115,9 +115,9 @@ function showGeolocation(response) {
     let cityName = document.querySelector("#city-name");
     cityName.innerHTML = `${response.data.name}`;
     // Get & display the parameters
-    let precipitation = document.querySelector("#precipitation");
+    let humidity = document.querySelector("#humidity");
     let wind = document.querySelector("#wind");
-    precipitation.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
+    humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
 }
 
