@@ -42,7 +42,7 @@ function formatHours(timestamp) {
     return `${hours}:${minutes}`;
 }
 
-// Using API: When a user searches for a city (example: New York), it should display the name of the city on the result page and the current temperature of the city.
+// When a user searches for a city (example: New York), it displays the name of the city on the result page and the current weather conditions of the city
 
 // Display the next hours forecast
 function displayForecast(response) {
@@ -135,6 +135,25 @@ function geolocationData(event) {
     navigator.geolocation.getCurrentPosition(getData);
 }
 
-// Geolocation Btn 
+// Geolocation Btn events
 let geolocationBtn = document.querySelector("#geolocation-button");
 geolocationBtn.addEventListener("click", geolocationData);
+
+//  Temperature conversion: Celsius <-> Fahrenheit
+let temperatureValue = document.querySelector("#current-temperature");
+
+// Celsius display
+
+// Fahrenheit display
+function displayFahrenheit(event) {
+    event.preventDefault();
+    let temperature = temperatureValue.innerHTML;
+    let fahrenheitValue = Math.round(temperature * 9 / 5) + 32;
+    temperatureValue.innerHTML = `${fahrenheitValue}`;
+}
+
+// Conversion click Events
+// let degreeTemperature = document.querySelector("#degree-temperature");
+// degreeTemperature.addEventListener("click", displayDegree);
+let fahrenheit = document.querySelector("#fahrenheit-temperature");
+fahrenheit.addEventListener("click", displayFahrenheit);
