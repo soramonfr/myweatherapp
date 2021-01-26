@@ -20,6 +20,7 @@ body {
   margin-bottom: 10px;
 }
 
+
 .date {
   text-align: center;
   margin-bottom: 70px;
@@ -33,6 +34,10 @@ h1 {
 h2 {
   text-align: center;
   margin-bottom: 20px;
+}
+
+#city-name {
+  text-transform: capitalize;
 }
 
 .parameters {
@@ -61,5 +66,5 @@ footer {
 }
 
 footer a {
-  color: #FEF7E7;
+  color: #fef7e7;
 }
