@@ -97,7 +97,7 @@ function cityDisplay(event) {
     axios.get(apiUrl).then(showTemperature);
 
     apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput.value}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(displayForecast);
+    axios.get(apiUrl).then(displayForecast);
 }
 
 // Form submission
@@ -142,7 +142,7 @@ let geolocationBtn = document.querySelector("#geolocation-button");
 geolocationBtn.addEventListener("click", geolocationData);
 
 //  Temperature unit conversion: Celsius <-> Fahrenheit
-let temperatureValue = document.querySelector("#current-temperature"); 
+let temperatureValue = document.querySelector("#current-temperature");
 // Setting celsius as global variable to fix conversion bug
 let celsiusTemperature = null;
 
@@ -155,8 +155,6 @@ function displayCelsius(event) {
 // Fahrenheit display
 function displayFahrenheit(event) {
     event.preventDefault();
-    // celsius.classList.remove("active");
-    // fahrenheit.classList.add("active");
     let fahrenheitValue = Math.round(celsiusTemperature * 9 / 5) + 32;
     temperatureValue.innerHTML = fahrenheitValue;
 }
