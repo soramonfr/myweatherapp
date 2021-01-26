@@ -73,7 +73,8 @@ function displayForecast(response) {
 
 // Display the current temperature of the city, via the API.
 function showTemperature(response) {
-    let apiTemperature = Math.round(response.data.main.temp);
+    celsiusTemperature = response.data.main.temp;
+    let apiTemperature = Math.round(celsiusTemperature);
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
     // Get & display the parameters
@@ -108,7 +109,8 @@ formSubmit.addEventListener("submit", cityDisplay);
 
 function showGeolocation(response) {
     // Get and display the temperature
-    let apiTemperature = Math.round(response.data.main.temp);
+    celsiusTemperature = response.data.main.temp;
+    let apiTemperature = Math.round(celsiusTemperature);
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
     // Get & display the location
@@ -139,21 +141,29 @@ function geolocationData(event) {
 let geolocationBtn = document.querySelector("#geolocation-button");
 geolocationBtn.addEventListener("click", geolocationData);
 
-//  Temperature conversion: Celsius <-> Fahrenheit
-let temperatureValue = document.querySelector("#current-temperature");
+//  Temperature unit conversion: Celsius <-> Fahrenheit
+let temperatureValue = document.querySelector("#current-temperature"); 
+// Setting celsius as global variable to fix conversion bug
+let celsiusTemperature = null;
 
 // Celsius display
+function displayCelsius(event) {
+    event.preventDefault();
+    temperatureValue.innerHTML = Math.round(celsiusTemperature);
+}
 
 // Fahrenheit display
 function displayFahrenheit(event) {
     event.preventDefault();
-    let temperature = temperatureValue.innerHTML;
-    let fahrenheitValue = Math.round(temperature * 9 / 5) + 32;
-    temperatureValue.innerHTML = `${fahrenheitValue}`;
+    // celsius.classList.remove("active");
+    // fahrenheit.classList.add("active");
+    let fahrenheitValue = Math.round(celsiusTemperature * 9 / 5) + 32;
+    temperatureValue.innerHTML = fahrenheitValue;
 }
 
 // Conversion click Events
-// let degreeTemperature = document.querySelector("#degree-temperature");
-// degreeTemperature.addEventListener("click", displayDegree);
+let celsius = document.querySelector("#celsius-temperature");
+celsius.addEventListener("click", displayCelsius);
+
 let fahrenheit = document.querySelector("#fahrenheit-temperature");
 fahrenheit.addEventListener("click", displayFahrenheit);
