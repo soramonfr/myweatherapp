@@ -149,12 +149,16 @@ let celsiusTemperature = null;
 // Celsius display
 function displayCelsius(event) {
     event.preventDefault();
+    fahrenheit.classList.remove("active");
+    celsius.classList.add("active");
     temperatureValue.innerHTML = Math.round(celsiusTemperature);
 }
 
 // Fahrenheit display
 function displayFahrenheit(event) {
     event.preventDefault();
+    celsius.classList.remove("active");
+    fahrenheit.classList.add("active");
     let fahrenheitValue = Math.round(celsiusTemperature * 9 / 5) + 32;
     temperatureValue.innerHTML = fahrenheitValue;
 }
