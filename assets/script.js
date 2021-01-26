@@ -78,8 +78,10 @@ function showTemperature(response) {
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
     // Get & display the parameters
+    feelsTemperature = response.data.main.feels_like;
     let humidity = document.querySelector("#humidity");
     let wind = document.querySelector("#wind");
+    feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
 }
