@@ -1,34 +1,21 @@
-// Display the current date and time
-let now = new Date();
-
-// Day display
-let currentDay = document.querySelector("#current-day");
-let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-];
-currentDay.innerHTML = `Last updated: ${days[now.getDay()]}`;
+// Display the current date and time via timestamp
+// Date display
+function formatDate(timestamp) {
+    let date = new Date(timestamp);
+    let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ];
+    let day = days[date.getDay()];
+    return `${day} ${formatHours(timestamp)}`;
+}
 
 // Hour display
-let currentHour = document.querySelector("#current-hour");
-let hours = now.getHours();
-let minutes = now.getMinutes();
-
-if (hours < 10) {
-    hours = `0${hours}`;
-}
-if (minutes < 10) {
-    minutes = `0${minutes}`;
-}
-
-currentHour.innerHTML = `${hours}:${minutes}`;
-
-// Format hours - timestamp
 function formatHours(timestamp) {
     let date = new Date(timestamp);
     let hours = date.getHours();
@@ -44,6 +31,9 @@ function formatHours(timestamp) {
 
 /// Display the current weather conditions
 function displayWeatherConditions(response) {
+    // Display date
+    let currentDate = document.querySelector("#current-date");
+    currentDate.innerHTML = `Last updated: ${formatDate(response.data.dt * 1000)}`;
     // Display city name
     let cityName = document.querySelector("#city-name");
     cityName.innerHTML = `${response.data.name}`;
@@ -119,15 +109,18 @@ formSubmit.addEventListener("submit", handleCitySubmit);
 // Uses the Geolocation API to get users GPS coordinates and display the weather condidtions
 
 function showGeolocationConditions(response) {
-    // Get and display the temperature
+    // Display date
+    let currentDate = document.querySelector("#current-date");
+    currentDate.innerHTML = `Last updated: ${formatDate(response.data.dt * 1000)}`;
+    // Display the temperature
     celsiusTemperature = response.data.main.temp;
     let apiTemperature = Math.round(celsiusTemperature);
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
-    // Get & display the location
+    // Display the location
     let cityName = document.querySelector("#city-name");
     cityName.innerHTML = `${response.data.name}`;
-    // Get & display the parameters
+    // Display the parameters
     let feels = document.querySelector("#feels-like");
     let humidity = document.querySelector("#humidity");
     let wind = document.querySelector("#wind");
