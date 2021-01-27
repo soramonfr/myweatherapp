@@ -33,7 +33,7 @@ function formatHours(timestamp) {
 function displayWeatherConditions(response) {
     // Display date
     let currentDate = document.querySelector("#current-date");
-    currentDate.innerHTML = `Last updated: ${formatDate(response.data.dt * 1000)}`;
+    currentDate.innerHTML = `Last updated: ${formatDate((response.data.dt + response.data.timezone)* 1000)}`;
     // Display city name
     let cityName = document.querySelector("#city-name");
     cityName.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
@@ -57,6 +57,7 @@ function displayWeatherConditions(response) {
 
 // Display the next hours forecast (every 3 hours)
 function displayForecast(response) {
+    console.log(response);
     let forecastElement = document.querySelector("#forecast");
     // Fixing forecast duplication element
     forecastElement.innerHTML = null;
@@ -65,10 +66,11 @@ function displayForecast(response) {
     // Display forecasts col
     for (let index = 0; index < 3; index++) {
         forecast = response.data.list[index];
+        let timezone = response.data.city.timezone;
         forecastElement.innerHTML += `
       <div class="col p-0">
             <ul>
-                <li class="forecast-hours">${formatHours(forecast.dt * 1000)}</li>
+                <li class="forecast-hours">${formatHours((forecast.dt + timezone) * 1000)}</li>
                 <li class="forecast-icons">
                     <img title="${forecast.weather[0].description}" src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png">
                 </li>
