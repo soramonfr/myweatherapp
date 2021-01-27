@@ -42,9 +42,30 @@ function formatHours(timestamp) {
     return `${hours}:${minutes}`;
 }
 
-// When a user searches for a city (example: New York), it displays the name of the city on the result page and the current weather conditions of the city
+/// Display the current weather conditions
+function displayWeatherConditions(response) {
+    // Display city name
+    let cityName = document.querySelector("#city-name");
+    cityName.innerHTML = `${response.data.name}`;
+    // Display temperature
+    celsiusTemperature = response.data.main.temp;
+    let apiTemperature = Math.round(celsiusTemperature);
+    let temperatureDisplay = document.querySelector("#current-temperature");
+    temperatureDisplay.innerHTML = `${apiTemperature}`;
+    // Display icon & description
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.innerHTML = `<img title="${response.data.weather[0].description}" src="http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png">`;
+    // Display the parameters
+    let feels = document.querySelector("#feels-like");
+    let humidity = document.querySelector("#humidity");
+    let wind = document.querySelector("#wind");
+    feelsTemperature = response.data.main.feels_like;
+    feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
+    humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3.6)}km/h`;
+}
 
-// Display the next hours forecast
+// Display the next hours forecast (every 3 hours)
 function displayForecast(response) {
     let forecastElement = document.querySelector("#forecast");
     // Fixing forecast duplication element
@@ -59,7 +80,7 @@ function displayForecast(response) {
             <ul>
                 <li class="forecast-hours">${formatHours(forecast.dt * 1000)}</li>
                 <li class="forecast-icons">
-                    <img src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png">
+                    <img title="${forecast.weather[0].description}" src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png">
                 </li>
                 <li class="forecast-temperatures">
                     <strong>${Math.round(forecast.main.temp_max)}°</strong>
@@ -71,52 +92,33 @@ function displayForecast(response) {
     }
 }
 
-// Display the current temperature of the city, via the API.
-function showTemperature(response) {
-    // Display city name
-    let cityName = document.querySelector("#city-name");
-    cityName.innerHTML = `${response.data.name}`;
-    // Display temperature
-    celsiusTemperature = response.data.main.temp;
-    let apiTemperature = Math.round(celsiusTemperature);
-    let temperatureDisplay = document.querySelector("#current-temperature");
-    temperatureDisplay.innerHTML = `${apiTemperature}`;
-    // Display icon & description
-    let currentIcon = document.querySelector("#current-icon");
-    currentIcon.innerHTML = `<img title="${response.data.weather[0].description}" src="http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png">`;
-    // Get & display the parameters
-    let feels = document.querySelector("#feels-like");
-    let humidity = document.querySelector("#humidity");
-    let wind = document.querySelector("#wind");
-    feelsTemperature = response.data.main.feels_like;
-    feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
-    humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
-    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3,6)}km/h`;
-    console.log(response.data);
-}
-
-// When searching for a city, display the city name on the page after the user submits the form. Use axios to get the API datas related to this city.
-function cityDisplay(event) {
-    event.preventDefault();
-    // Get the data
-    cityInput = document.querySelector("#city-input");
+// Gets the weather conditions after the user submits the form. Use axios to get the API datas related to this city.
+function search(city) {
     let apiUnit = "metric";
     let apiKey = "c3713b1bcebb5ce5f896fa8a7eec12ab";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&units=${apiUnit}&appid=${apiKey}`;
-    axios.get(apiUrl).then(showTemperature);
-
-    apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput.value}&appid=${apiKey}&units=metric`;
+    // Current weather conditions
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${apiUnit}&appid=${apiKey}`;
+    axios.get(apiUrl).then(displayWeatherConditions);
+    // Forecast 
+    apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
     axios.get(apiUrl).then(displayForecast);
 }
 
 // Form submission
+function handleCitySubmit(event) {
+    event.preventDefault();
+    cityInput = document.querySelector("#city-input");
+    search(cityInput.value);
+}
+
+// Form submission event
 let formSubmit = document.querySelector("form");
-formSubmit.addEventListener("submit", cityDisplay);
+formSubmit.addEventListener("submit", handleCitySubmit);
 
-// Add a Current Location button. 
-// When clicking on it, it uses the Geolocation API to get your GPS coordinates and display and the city and current temperature using the OpenWeather API.
+// Current Location button
+// Uses the Geolocation API to get users GPS coordinates and display the weather condidtions
 
-function showGeolocation(response) {
+function showGeolocationConditions(response) {
     // Get and display the temperature
     celsiusTemperature = response.data.main.temp;
     let apiTemperature = Math.round(celsiusTemperature);
@@ -132,21 +134,24 @@ function showGeolocation(response) {
     feelsTemperature = response.data.main.feels_like;
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
-    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3,6)}km/h`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3.6)}km/h`;
 }
 
 function geolocationData(event) {
     event.preventDefault();
-    function getData(position) {
+    function getDataConditions(position) {
         let lat = position.coords.latitude;
         let lon = position.coords.longitude;
         let unit = "metric";
         let apiKey = "c3713b1bcebb5ce5f896fa8a7eec12ab";
         let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
-        axios.get(apiUrl).then(showGeolocation);
+        axios.get(apiUrl).then(showGeolocationConditions);
+        // Forecast 
+        apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${unit}&appid=${apiKey}`;
+        axios.get(apiUrl).then(displayForecast);
     }
-    // Let's first get the temperature of the current position via getTemperature and then show it via showGeolocation
-    navigator.geolocation.getCurrentPosition(getData);
+    // First gets the temperature of the current position via getDataConditions and then display its parameters via showGeolocationConditions & displayForecast
+    navigator.geolocation.getCurrentPosition(getDataConditions);
 }
 
 // Geolocation Btn events
@@ -154,7 +159,7 @@ let geolocationBtn = document.querySelector("#geolocation-button");
 geolocationBtn.addEventListener("click", geolocationData);
 
 //  Temperature unit conversion: Celsius <-> Fahrenheit
-// Setting celsius as global variable to fix conversion bug
+// Setting as global variables to fix conversion bug
 let celsiusTemperature = null;
 let feelsTemperature = null;
 
@@ -187,3 +192,6 @@ celsius.addEventListener("click", displayCelsius);
 
 let fahrenheit = document.querySelector("#fahrenheit-temperature");
 fahrenheit.addEventListener("click", displayFahrenheit);
+
+// Default city on load
+search("Lyon");
