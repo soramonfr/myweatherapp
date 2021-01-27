@@ -91,7 +91,7 @@ function showTemperature(response) {
     feelsTemperature = response.data.main.feels_like;
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
-    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3,6)}km/h`;
     console.log(response.data);
 }
 
@@ -132,7 +132,7 @@ function showGeolocation(response) {
     feelsTemperature = response.data.main.feels_like;
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
-    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3,6)}km/h`;
 }
 
 function geolocationData(event) {
