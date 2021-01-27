@@ -9,7 +9,7 @@ body {
 
 .weather-app {
   background-image: linear-gradient(to bottom, #f1eef5 10%, #887c9d 90%);
-  border: solid 1px #a9a9a900;
+  border: none;
   padding: 10px;
   margin: 150px auto;
   border-radius: 10px;

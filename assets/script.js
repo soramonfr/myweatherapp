@@ -36,7 +36,7 @@ function displayWeatherConditions(response) {
     currentDate.innerHTML = `Last updated: ${formatDate(response.data.dt * 1000)}`;
     // Display city name
     let cityName = document.querySelector("#city-name");
-    cityName.innerHTML = `${response.data.name}`;
+    cityName.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
     // Display temperature
     celsiusTemperature = response.data.main.temp;
     let apiTemperature = Math.round(celsiusTemperature);
@@ -119,7 +119,7 @@ function showGeolocationConditions(response) {
     temperatureDisplay.innerHTML = `${apiTemperature}`;
     // Display the location
     let cityName = document.querySelector("#city-name");
-    cityName.innerHTML = `${response.data.name}`;
+    cityName.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
     // Display the parameters
     let feels = document.querySelector("#feels-like");
     let humidity = document.querySelector("#humidity");
@@ -187,4 +187,4 @@ let fahrenheit = document.querySelector("#fahrenheit-temperature");
 fahrenheit.addEventListener("click", displayFahrenheit);
 
 // Default city on load
-search("Lyon");
+search("Venise");
