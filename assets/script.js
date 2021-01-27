@@ -160,6 +160,7 @@ function displayCelsius(event) {
     fahrenheit.classList.remove("active");
     celsius.classList.add("active");
     temperatureValue.innerHTML = Math.round(celsiusTemperature);
+    feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
 }
 
 // Fahrenheit display
