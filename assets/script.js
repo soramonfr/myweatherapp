@@ -73,10 +73,17 @@ function displayForecast(response) {
 
 // Display the current temperature of the city, via the API.
 function showTemperature(response) {
+    // Display city name
+    let cityName = document.querySelector("#city-name");
+    cityName.innerHTML = `${response.data.name}`;
+    // Display temperature
     celsiusTemperature = response.data.main.temp;
     let apiTemperature = Math.round(celsiusTemperature);
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
+    // Display icon & description
+    let currentIcon = document.querySelector("#current-icon");
+    currentIcon.innerHTML = `<img title="${response.data.weather[0].description}" src="http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png">`;
     // Get & display the parameters
     let feels = document.querySelector("#feels-like");
     let humidity = document.querySelector("#humidity");
@@ -85,6 +92,7 @@ function showTemperature(response) {
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
+    console.log(response.data);
 }
 
 // When searching for a city, display the city name on the page after the user submits the form. Use axios to get the API datas related to this city.
@@ -92,8 +100,6 @@ function cityDisplay(event) {
     event.preventDefault();
     // Get the data
     cityInput = document.querySelector("#city-input");
-    let cityName = document.querySelector("#city-name");
-    cityName.innerHTML = `${cityInput.value}`;
     let apiUnit = "metric";
     let apiKey = "c3713b1bcebb5ce5f896fa8a7eec12ab";
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput.value}&units=${apiUnit}&appid=${apiKey}`;
