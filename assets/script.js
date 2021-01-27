@@ -78,9 +78,10 @@ function showTemperature(response) {
     let temperatureDisplay = document.querySelector("#current-temperature");
     temperatureDisplay.innerHTML = `${apiTemperature}`;
     // Get & display the parameters
-    feelsTemperature = response.data.main.feels_like;
+    let feels = document.querySelector("#feels-like");
     let humidity = document.querySelector("#humidity");
     let wind = document.querySelector("#wind");
+    feelsTemperature = response.data.main.feels_like;
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed)}km/h`;
@@ -147,11 +148,8 @@ let geolocationBtn = document.querySelector("#geolocation-button");
 geolocationBtn.addEventListener("click", geolocationData);
 
 //  Temperature unit conversion: Celsius <-> Fahrenheit
-let temperatureValue = document.querySelector("#current-temperature");
-let feels = document.querySelector("#feels-like");
 // Setting celsius as global variable to fix conversion bug
 let celsiusTemperature = null;
-
 let feelsTemperature = null;
 
 // Celsius display
@@ -159,7 +157,9 @@ function displayCelsius(event) {
     event.preventDefault();
     fahrenheit.classList.remove("active");
     celsius.classList.add("active");
+    let temperatureValue = document.querySelector("#current-temperature");
     temperatureValue.innerHTML = Math.round(celsiusTemperature);
+    let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
 }
 
@@ -168,8 +168,10 @@ function displayFahrenheit(event) {
     event.preventDefault();
     celsius.classList.remove("active");
     fahrenheit.classList.add("active");
+    let temperatureValue = document.querySelector("#current-temperature");
     let fahrenheitValue = Math.round(celsiusTemperature * 9 / 5) + 32;
     temperatureValue.innerHTML = fahrenheitValue;
+    let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round((feelsTemperature * 9 / 5) + 32)}°`;
 }
 
