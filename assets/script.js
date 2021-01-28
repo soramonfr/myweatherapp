@@ -49,10 +49,11 @@ function displayWeatherConditions(response) {
     let feels = document.querySelector("#feels-like");
     let humidity = document.querySelector("#humidity");
     let wind = document.querySelector("#wind");
+    windSpeed = Math.round(response.data.wind.speed * 3.6);
     feelsTemperature = response.data.main.feels_like;
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
-    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3.6)}km/h`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${windSpeed}km/h`;
 }
 
 // Display the next hours forecast (every 3 hours)
@@ -129,10 +130,11 @@ function showGeolocationConditions(response) {
     let feels = document.querySelector("#feels-like");
     let humidity = document.querySelector("#humidity");
     let wind = document.querySelector("#wind");
+    windSpeed = Math.round(response.data.wind.speed * 3.6);
     feelsTemperature = response.data.main.feels_like;
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
     humidity.innerHTML = `<i class="fas fa-umbrella"></i> Humidity: ${response.data.main.humidity}%`;
-    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(response.data.wind.speed * 3.6)}km/h`;
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${windSpeed}km/h`;
 }
 
 function geolocationData(event) {
@@ -160,6 +162,7 @@ geolocationBtn.addEventListener("click", geolocationData);
 // Setting as global variables to fix conversion bug
 let celsiusTemperature = null;
 let feelsTemperature = null;
+let windSpeed = null;
 
 // Celsius display
 function displayCelsius(event) {
@@ -170,6 +173,9 @@ function displayCelsius(event) {
     temperatureValue.innerHTML = Math.round(celsiusTemperature);
     let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
+    let wind = document.querySelector("#wind");
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${windSpeed}km/h`;
+    // João method for the forecast:
     let forecastMax = document.querySelectorAll(".forecast-max");
     forecastMax.forEach(function (item) {
         // grabbing the current value to convert
@@ -199,6 +205,9 @@ function displayFahrenheit(event) {
     temperatureValue.innerHTML = fahrenheitValue;
     let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round((feelsTemperature * 9 / 5) + 32)}°`;
+    let wind = document.querySelector("#wind");
+    wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(windSpeed/1.609)}mph`;
+    // João method for the forecast:
     let forecastMax = document.querySelectorAll(".forecast-max");
     forecastMax.forEach(function (item) {
         // grabbing the current value to convert
