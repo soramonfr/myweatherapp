@@ -33,7 +33,7 @@ function formatHours(timestamp) {
 function displayWeatherConditions(response) {
     // Display date
     let currentDate = document.querySelector("#current-date");
-    currentDate.innerHTML = `Last updated: ${formatDate((response.data.dt + response.data.timezone)* 1000)}`;
+    currentDate.innerHTML = `Last updated: ${formatDate((response.data.dt + response.data.timezone) * 1000)}`;
     // Display city name
     let cityName = document.querySelector("#city-name");
     cityName.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
@@ -57,7 +57,6 @@ function displayWeatherConditions(response) {
 
 // Display the next hours forecast (every 3 hours)
 function displayForecast(response) {
-    console.log(response);
     let forecastElement = document.querySelector("#forecast");
     // Fixing forecast duplication element
     forecastElement.innerHTML = null;
@@ -85,14 +84,18 @@ function displayForecast(response) {
 }
 
 // Gets the weather conditions after the user submits the form. Use axios to get the API datas related to this city.
+function wrongCityInput(event) {
+    alert("Mmmmmmm... you are... 🌎📌 not here! Please, type a valid city or country name 🧭!");
+}
+
 function search(city) {
     let apiUnit = "metric";
     let apiKey = "c3713b1bcebb5ce5f896fa8a7eec12ab";
     // Current weather conditions
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${apiUnit}&appid=${apiKey}`;
-    axios.get(apiUrl).then(displayWeatherConditions);
+    axios.get(apiUrl).then(displayWeatherConditions).catch(wrongCityInput);
     // Forecast 
-    apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+    apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${apiUnit}&appid=${apiKey}`;
     axios.get(apiUrl).then(displayForecast);
 }
 
