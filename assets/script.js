@@ -170,6 +170,23 @@ function displayCelsius(event) {
     temperatureValue.innerHTML = Math.round(celsiusTemperature);
     let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
+    let forecastMax = document.querySelectorAll(".forecast-max");
+    forecastMax.forEach(function (item) {
+        // grabbing the current value to convert
+        let currentTemp = item.innerHTML;
+        // convert to Celsius
+        item.innerHTML = Math.round(((currentTemp - 32) * 5) / 9);
+    });
+    let forecastMin = document.querySelectorAll(".forecast-min");
+    forecastMin.forEach(function (item) {
+        // grabbing the current value to convert
+        let currentTemp = item.innerHTML;
+        // convert to Celsius
+        item.innerHTML = Math.round(((currentTemp - 32) * 5) / 9);
+    });
+    // to avoid double conversion
+    celsius.removeEventListener("click", displayCelsius);
+    fahrenheit.addEventListener("click", displayFahrenheit);
 }
 
 // Fahrenheit display
@@ -184,21 +201,21 @@ function displayFahrenheit(event) {
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round((feelsTemperature * 9 / 5) + 32)}°`;
     let forecastMax = document.querySelectorAll(".forecast-max");
     forecastMax.forEach(function (item) {
-      // grabbing the current value to convert
-      let currentTemp = item.innerHTML;
-      // convert to Celsius
-      item.innerHTML = Math.round(((currentTemp - 32) * 5) / 9);
+        // grabbing the current value to convert
+        let currentTemp = item.innerHTML;
+        // convert to Fahrenheit
+        item.innerHTML = Math.round((currentTemp * 9) / 5 + 32);
     });
     let forecastMin = document.querySelectorAll(".forecast-min");
     forecastMin.forEach(function (item) {
-      // grabbing the current value to convert
-      let currentTemp = item.innerHTML;
-      // convert to Celsius
-      item.innerHTML = Math.round(((currentTemp - 32) * 5) / 9);
+        // grabbing the current value to convert
+        let currentTemp = item.innerHTML;
+        // convert to Fahrenheit
+        item.innerHTML = Math.round((currentTemp * 9) / 5 + 32);
     });
     // to avoid double conversion
-    celsius.removeEventListener("click", displayCelsius);
-    fahrenheit.addEventListener("click", displayFahrenheit);
+    celsius.addEventListener("click", displayCelsius);
+    fahrenheit.removeEventListener("click", displayFahrenheit);
 }
 
 // Conversion click Events
