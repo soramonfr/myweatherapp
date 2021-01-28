@@ -74,8 +74,8 @@ function displayForecast(response) {
                     <img title="${forecast.weather[0].description}" src="http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png">
                 </li>
                 <li class="forecast-temperatures">
-                    <strong>${Math.round(forecast.main.temp_max)}°</strong>
-                    ${Math.round(forecast.main.temp_min)}°
+                    <strong><span class="forecast-max">${Math.round(forecast.main.temp_max)}</span>°</strong>
+                    <span class="forecast-min">${Math.round(forecast.main.temp_min)}</span>°
                 </li>
             </ul>
         </div>
@@ -182,6 +182,23 @@ function displayFahrenheit(event) {
     temperatureValue.innerHTML = fahrenheitValue;
     let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round((feelsTemperature * 9 / 5) + 32)}°`;
+    let forecastMax = document.querySelectorAll(".forecast-max");
+    forecastMax.forEach(function (item) {
+      // grabbing the current value to convert
+      let currentTemp = item.innerHTML;
+      // convert to Celsius
+      item.innerHTML = Math.round(((currentTemp - 32) * 5) / 9);
+    });
+    let forecastMin = document.querySelectorAll(".forecast-min");
+    forecastMin.forEach(function (item) {
+      // grabbing the current value to convert
+      let currentTemp = item.innerHTML;
+      // convert to Celsius
+      item.innerHTML = Math.round(((currentTemp - 32) * 5) / 9);
+    });
+    // to avoid double conversion
+    celsius.removeEventListener("click", displayCelsius);
+    fahrenheit.addEventListener("click", displayFahrenheit);
 }
 
 // Conversion click Events
