@@ -173,6 +173,7 @@ function displayCelsius(event) {
     temperatureValue.innerHTML = Math.round(celsiusTemperature);
     let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round(feelsTemperature)}°`;
+    // Keeping wind in km/h
     let wind = document.querySelector("#wind");
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${windSpeed}km/h`;
     // João method for the forecast:
@@ -205,6 +206,7 @@ function displayFahrenheit(event) {
     temperatureValue.innerHTML = fahrenheitValue;
     let feels = document.querySelector("#feels-like");
     feels.innerHTML = `<i class="fas fa-info-circle"></i> Feels like: ${Math.round((feelsTemperature * 9 / 5) + 32)}°`;
+    // Also converting wind into mph
     let wind = document.querySelector("#wind");
     wind.innerHTML = `<i class="fas fa-wind"></i> Wind: ${Math.round(windSpeed/1.609)}mph`;
     // João method for the forecast:
